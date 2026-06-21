@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konoba Jaz — Zaton kraj Šibenika</title>
+  <meta name="description" content="Konoba Jaz u Zatonu kraj Šibenika — svježa riba s gradela, hobotnica ispod peke, domaće vino i maslinovo ulje. Stolovi uz tihu uvalu od mora. Rezervacije: 098 169 5744.">
+  <meta property="og:title" content="Konoba Jaz — Zaton kraj Šibenika">
+  <meta property="og:description" content="Riba iz zaljeva. Vino s brda. Sve ostalo — mir. Obiteljska konoba na tihom šibenskom zaljeva.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: auto; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { background: none; border: none; cursor: pointer; font: inherit; }
+
+    /* =============================================
+       DESIGN TOKENS
+    ============================================= */
+    :root {
+      --bg-base: #F5F1E8;
+      --bg-dark: #1A1614;
+      --bg-dark-2: #221C17;
+      --text: #2C2C2C;
+      --accent: #B5784A;
+      --accent-soft: #C98D62;
+      --sage: #6B7B5E;
+      --mid: #9C8C7C;
+      --cream-dim: rgba(245,241,232,0.72);
+      --line-dark: rgba(245,241,232,0.12);
+      --line-light: rgba(44,44,44,0.14);
+      --font-display: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --ease-warm: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* =============================================
+       TYPOGRAPHY BASE
+    ============================================= */
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--text);
+      background: var(--bg-dark);
+      overflow-x: hidden;
+    }
+
+    .eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      line-height: 1.15;
+    }
+
+    h2 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 500;
+    }
+
+    /* Word split animation support */
+    .word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+    .word-inner { display: inline-block; }
+
+    /* =============================================
+       REVEAL ANIMATION CLASS
+    ============================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s var(--ease-warm), transform 0.7s var(--ease-warm);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* =============================================
+       HEADER
+    ============================================= */
+    #header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 900;
+      padding: 0 2.5rem;
+      height: 72px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      transition: background 0.4s var(--ease-warm), backdrop-filter 0.4s;
+    }
+
+    #header.scrolled {
+      background: rgba(26,22,20,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .header-logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--bg-base);
+      letter-spacing: 0.03em;
+    }
+    .header-logo em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .header-nav {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .header-nav a {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(245,241,232,0.75);
+      transition: color 0.25s;
+    }
+    .header-nav a:hover { color: var(--bg-base); }
+
+    .header-cta-wrap {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .btn-rezerviraj {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--bg-dark);
+      background: var(--accent);
+      padding: 0.65rem 1.4rem;
+      border-radius: 2px;
+      transition: background 0.25s, color 0.25s;
+      white-space: nowrap;
+    }
+    .btn-rezerviraj:hover {
+      background: var(--accent-soft);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      padding: 8px;
+      margin-left: auto;
+      cursor: pointer;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--bg-base);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile menu overlay */
+    .mobile-menu {
+      position: fixed;
+      inset: 0;
+      z-index: 850;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--ease-warm);
+    }
+    .mobile-menu.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 8vw, 52px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--bg-base);
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--accent); }
+    .mobile-menu-phone {
+      margin-top: 1.5rem;
+      font-family: var(--font-body);
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 600px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      will-change: transform;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(
+        180deg,
+        rgba(26,22,20,0.50) 0%,
+        rgba(26,22,20,0.25) 40%,
+        rgba(26,22,20,0.82) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 0 2.5rem 7rem;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,241,232,0.65);
+      margin-bottom: 1.4rem;
+      display: block;
+    }
+
+    .hero-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 7vw, 86px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--bg-base);
+      line-height: 1.1;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-sub {
+      font-family: var(--font-body);
+      font-size: clamp(14px, 1.8vw, 17px);
+      font-weight: 300;
+      color: rgba(245,241,232,0.72);
+      max-width: 480px;
+      line-height: 1.6;
+    }
+
+    /* Scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .scroll-indicator span {
+      font-family: var(--font-body);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(245,241,232,0.45);
+      writing-mode: vertical-rl;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: rgba(245,241,232,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+    .scroll-line::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--accent);
+      animation: scrollLine 2s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0% { top: -100%; }
+      100% { top: 100%; }
+    }
+
+    /* =============================================
+       O NAMA
+    ============================================= */
+    #o-nama {
+      background: var(--bg-dark);
+      padding: 8rem 2.5rem;
+    }
+
+    .o-nama-inner {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .lead-serif {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--bg-base);
+      line-height: 1.4;
+      margin-bottom: 2rem;
+    }
+
+    .body-text {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(245,241,232,0.65);
+      line-height: 1.8;
+    }
+
+    /* Ornament divider */
+    .ornament {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 3.5rem 0;
+    }
+    .ornament-line {
+      flex: 1;
+      height: 1px;
+      background: var(--line-dark);
+    }
+    .ornament-mark {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    /* =============================================
+       JELOVNIK
+    ============================================= */
+    #jelovnik {
+      background: var(--bg-base);
+      padding: 8rem 2.5rem;
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-head h2 {
+      color: var(--text);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-subtitle {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .menu-category {
+      background: #fff;
+      padding: 2.5rem;
+      border: 1px solid var(--line-light);
+    }
+
+    .menu-category-title {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .menu-category-sub {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-style: italic;
+      color: var(--mid);
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .menu-items { list-style: none; }
+
+    .menu-item {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--line-light);
+    }
+    .menu-item:last-child { border-bottom: none; }
+
+    .menu-item-name {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    .menu-item-desc {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--mid);
+      line-height: 1.5;
+    }
+
+    .menu-note {
+      max-width: 1100px;
+      margin: 2.5rem auto 0;
+      text-align: center;
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-style: italic;
+      color: var(--mid);
+      padding: 1.5rem;
+      border-top: 1px solid var(--line-light);
+    }
+
+    /* =============================================
+       ZATON I ZALJEV
+    ============================================= */
+    #zaton {
+      background: var(--bg-dark-2);
+      overflow: hidden;
+    }
+
+    .zaton-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+    }
+
+    .zaton-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .zaton-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: sepia(0.2) contrast(1.05);
+      transition: filter 0.5s;
+    }
+
+    .zaton-content {
+      padding: 6rem 4rem 6rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .zaton-content h2 {
+      color: var(--bg-base);
+      margin-bottom: 1.5rem;
+    }
+
+    .zaton-body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(245,241,232,0.65);
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .zaton-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--line-dark);
+      border-top: 1px solid var(--line-dark);
+    }
+
+    .stat-item {
+      background: var(--bg-dark-2);
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-style: italic;
+      color: rgba(245,241,232,0.7);
+      line-height: 1.3;
+    }
+
+    .stat-accent {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+      margin: 0.5rem auto 0.5rem;
+    }
+
+    /* =============================================
+       GALERIJA
+    ============================================= */
+    #galerija {
+      background: var(--bg-base);
+      padding: 8rem 2.5rem;
+    }
+
+    .gallery-grid {
+      columns: 4;
+      column-gap: 8px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: sepia(0.25) contrast(1.05) saturate(0.9);
+      transition: transform 0.5s var(--ease-warm), filter 0.5s;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: sepia(0.08) contrast(1.02) saturate(1.0);
+    }
+
+    /* Wide image spans columns */
+    .gallery-item.wide {
+      break-inside: avoid;
+      column-span: all;
+      margin-bottom: 8px;
+    }
+    .gallery-item.wide img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+    }
+
+    /* =============================================
+       REZERVACIJE
+    ============================================= */
+    #rezervacije {
+      background: var(--bg-dark);
+      padding: 8rem 2.5rem;
+    }
+
+    .rezervacije-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: center;
+    }
+
+    .rezervacije-left h2 {
+      color: var(--bg-base);
+      margin-bottom: 1.2rem;
+    }
+    .rezervacije-left h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .rezervacije-text {
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(245,241,232,0.65);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .phone-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 500;
+      color: var(--bg-base);
+      transition: color 0.25s;
+    }
+    .phone-link:hover { color: var(--accent); }
+
+    .phone-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 16px;
+    }
+
+    /* Hours card */
+    .hours-card {
+      background: var(--bg-base);
+      padding: 3rem;
+      border-radius: 2px;
+    }
+
+    .hours-heading {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-style: italic;
+      color: var(--accent);
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--line-light);
+    }
+
+    .hours-list { list-style: none; }
+
+    .hours-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--line-light);
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--text);
+    }
+    .hours-row:last-of-type { border-bottom: none; }
+
+    .hours-day { font-weight: 400; }
+    .hours-time { font-weight: 500; color: var(--accent); }
+
+    .hours-season {
+      margin-top: 1.5rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line-light);
+    }
+
+    .hours-season-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .hours-season-value {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+
+    .hours-note {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    /* =============================================
+       LOKACIJA
+    ============================================= */
+    #lokacija {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 480px;
+    }
+
+    .lokacija-text {
+      background: var(--bg-dark-2);
+      padding: 6rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .lokacija-text h2 {
+      color: var(--bg-base);
+      margin-bottom: 1.2rem;
+    }
+
+    .lokacija-desc {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(245,241,232,0.65);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .lokacija-adresa {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-style: italic;
+      color: var(--accent-soft);
+    }
+
+    .lokacija-map {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lokacija-map iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 480px;
+      border: none;
+      filter: sepia(0.2) contrast(1.02);
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    #footer {
+      background: var(--bg-dark);
+      border-top: 1px solid var(--line-dark);
+      padding: 6rem 2.5rem 0;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-bottom: 4rem;
+      border-bottom: 1px solid var(--line-dark);
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--bg-base);
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .footer-logo em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .footer-desc {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(245,241,232,0.5);
+      line-height: 1.7;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+      display: block;
+    }
+
+    .footer-nav-list { list-style: none; }
+    .footer-nav-list li { margin-bottom: 0.7rem; }
+    .footer-nav-list a {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(245,241,232,0.55);
+      transition: color 0.2s;
+    }
+    .footer-nav-list a:hover { color: var(--bg-base); }
+
+    .footer-contact-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(245,241,232,0.55);
+      line-height: 1.5;
+    }
+    .footer-contact-item strong {
+      font-weight: 400;
+      color: rgba(245,241,232,0.8);
+    }
+    .footer-contact-item a { transition: color 0.2s; }
+    .footer-contact-item a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.8rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .footer-copy {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: rgba(245,241,232,0.3);
+    }
+
+    .footer-love {
+      font-family: var(--font-body);
+      font-size: 12px;
+      color: rgba(245,241,232,0.3);
+    }
+
+    /* =============================================
+       STICKY MOBILE BAR
+    ============================================= */
+    .mobile-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 800;
+      background: rgba(26,22,20,0.97);
+      border-top: 1px solid var(--line-dark);
+      padding: 0.9rem 1.5rem;
+    }
+
+    .mobile-bar a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--bg-dark);
+      background: var(--accent);
+      padding: 0.85rem 2rem;
+      border-radius: 2px;
+      width: 100%;
+      transition: background 0.25s;
+    }
+    .mobile-bar a:hover { background: var(--accent-soft); }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 1024px) {
+      .menu-grid { grid-template-columns: 1fr; }
+      .gallery-grid { columns: 2; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid > :first-child { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 768px) {
+      /* Header */
+      #header { padding: 0 1.5rem; }
+      .header-nav, .header-cta-wrap { display: none; }
+      .hamburger { display: flex; }
+
+      /* Hero */
+      .hero-content { padding: 0 1.5rem 6rem; }
+      .scroll-indicator { display: none; }
+
+      /* Sections */
+      #o-nama { padding: 5rem 1.5rem; }
+      #jelovnik { padding: 5rem 1.5rem; }
+      #galerija { padding: 5rem 1.5rem; }
+      #rezervacije { padding: 5rem 1.5rem; }
+
+      /* Zaton split */
+      .zaton-grid { grid-template-columns: 1fr; }
+      .zaton-image { height: 320px; }
+      .zaton-content { padding: 3rem 1.5rem; }
+      .zaton-stats { grid-template-columns: 1fr; }
+
+      /* Gallery */
+      .gallery-grid { columns: 1; }
+      .gallery-item.wide img { height: 200px; }
+
+      /* Rezervacije */
+      .rezervacije-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+
+      /* Lokacija */
+      #lokacija { grid-template-columns: 1fr; }
+      .lokacija-text { padding: 4rem 1.5rem; }
+      .lokacija-map iframe { min-height: 320px; }
+
+      /* Footer */
+      .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-grid > :first-child { grid-column: auto; }
+      #footer { padding: 4rem 1.5rem 0; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+
+      /* Mobile bar */
+      .mobile-bar { display: block; }
+
+      /* Add padding to last section for mobile bar */
+      #footer { padding-bottom: 5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-h1 { font-size: clamp(36px, 10vw, 52px); }
+      .menu-category { padding: 1.5rem; }
+    }
+
+    /* =============================================
+       REDUCED MOTION
+    ============================================= */
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-line::after { animation: none; }
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       MOBILE MENU OVERLAY
+  ============================================= -->
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Izbornik">
+    <nav>
+      <a href="#o-nama" class="mobile-nav-link">Priča</a>
+      <a href="#jelovnik" class="mobile-nav-link">Jelovnik</a>
+      <a href="#zaton" class="mobile-nav-link">Zaton</a>
+      <a href="#galerija" class="mobile-nav-link">Galerija</a>
+      <a href="#lokacija" class="mobile-nav-link">Kontakt</a>
+    </nav>
+    <a href="tel:+385981695744" class="mobile-menu-phone">📞 098 169 5744</a>
+  </div>
+
+  <!-- =============================================
+       HEADER
+  ============================================= -->
+  <header id="header" role="banner">
+    <a href="#" class="header-logo" aria-label="Konoba Jaz — početna">Konoba <em>Jaz</em></a>
+
+    <nav aria-label="Glavna navigacija">
+      <ul class="header-nav">
+        <li><a href="#o-nama">Priča</a></li>
+        <li><a href="#jelovnik">Jelovnik</a></li>
+        <li><a href="#zaton">Zaton</a></li>
+        <li><a href="#galerija">Galerija</a></li>
+        <li><a href="#lokacija">Kontakt</a></li>
+      </ul>
+    </nav>
+
+    <div class="header-cta-wrap">
+      <a href="tel:+385981695744" class="btn-rezerviraj">Rezerviraj stol</a>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Otvori izbornik" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
+
+  <!-- =============================================
+       HERO
+  ============================================= -->
+  <section id="hero" aria-label="Hero">
+    <div class="hero-bg">
+      <img
+        src="https://loremflickr.com/1920/1080/konoba,tavern?lock=101"
+        alt="Konoba Jaz — atmosfera"
+        loading="eager"
+        fetchpriority="high"
+      >
+    </div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <div class="hero-content">
+      <span class="hero-eyebrow">ZATON · ŠIBENSKI ZALJEV</span>
+      <h1 class="hero-h1" id="heroH1">
+        &#8220;Riba iz zaljeva. Vino s brda. Sve ostalo &#8212; mir.&#8221;
+      </h1>
+      <p class="hero-sub">Konoba Jaz, Zaton kraj Šibenika &#8212; stolovi uz tihu uvalu od mora</p>
+    </div>
+
+    <div class="scroll-indicator" aria-hidden="true">
+      <div class="scroll-line"></div>
+      <span>Skrolaj</span>
+    </div>
+  </section>
+
+  <!-- =============================================
+       O NAMA
+  ============================================= -->
+  <section id="o-nama" aria-labelledby="o-nama-title">
+    <div class="o-nama-inner">
+      <span class="eyebrow reveal">NAŠA PRIČA</span>
+      <div class="ornament">
+        <div class="ornament-line"></div>
+        <span class="ornament-mark">&#8212;</span>
+        <div class="ornament-line"></div>
+      </div>
+      <p class="lead-serif reveal" id="o-nama-title">
+        &#8220;Jaz znači prolaz tihe vode. Ovdje se sve odvija polako &#8212; i more, i kuhinja.&#8221;
+      </p>
+      <p class="body-text reveal">
+        Konoba Jaz smještena je na obali tihog zaljeva u Zatonu, selu koje leži skriveno između Šibenika i mora. Ovo je obiteljska konoba u punom smislu — svako jutro riba stiže s gradela svježa iz zaljeva: brancin, orada, lignje i školjke koje je Jadran te noći darovao. Svaka sezona donosi svoju ponudu, a peka se sporo greje ispod zvona od ranog jutra.
+        <br><br>
+        Vino dolazi s obronaka iznad sela, maslinovo ulje iz starih stabala što gledaju na more. Ovdje nema žurbe ni buke — samo zvuk vode, miris roštilja i tihi razgovor uz šalicu prošeka. Dobrodošli za naš stol.
+      </p>
+      <div class="ornament reveal">
+        <div class="ornament-line"></div>
+        <span class="ornament-mark">&#8258;</span>
+        <div class="ornament-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       JELOVNIK
+  ============================================= -->
+  <section id="jelovnik" aria-labelledby="jelovnik-title">
+    <div class="section-head">
+      <span class="eyebrow reveal">IZ NAŠE KUHINJE</span>
+      <h2 id="jelovnik-title" class="reveal">Jelovnik</h2>
+      <p class="section-subtitle reveal">Svježe, sezonsko, lokalno &#8212; bez kompromisa</p>
+    </div>
+
+    <div class="menu-grid" role="list">
+
+      <!-- RIBA S GRADELA -->
+      <div class="menu-category reveal" role="listitem">
+        <div class="menu-category-title">Riba s gradela</div>
+        <p class="menu-category-sub">svježa riba s roštilja na drveni ugljen</p>
+        <ul class="menu-items">
+          <li class="menu-item">
+            <span class="menu-item-name">Brancin s gradela</span>
+            <span class="menu-item-desc">lubina iz zaljeva, maslinovo ulje, kapar, limun</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Orada s gradela</span>
+            <span class="menu-item-desc">svježa, s nasjeckanom petrušinom i češnjakom</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Tuna na žaru</span>
+            <span class="menu-item-desc">lokalni tuljak, roštilja boja, zelena salata</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Lignje s gradela</span>
+            <span class="menu-item-desc">mladi kalamari, lemon-parsley finish</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ISPOD PEKE -->
+      <div class="menu-category reveal" role="listitem">
+        <div class="menu-category-title">Ispod peke</div>
+        <p class="menu-category-sub">jela iz pećnice pod cripnjom</p>
+        <ul class="menu-items">
+          <li class="menu-item">
+            <span class="menu-item-name">Janjetina ispod peke</span>
+            <span class="menu-item-desc">sporo kuhana 3 sata, krumpir, ružmarin</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Teletina ispod peke</span>
+            <span class="menu-item-desc">nježna, aromatična, domaće povrće</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Hobotnica ispod peke</span>
+            <span class="menu-item-desc">octopus, krumpir, kapule, maslinovo ulje</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- ŠKOLJKE -->
+      <div class="menu-category reveal" role="listitem">
+        <div class="menu-category-title">Školjke i plodovi mora</div>
+        <p class="menu-category-sub">sezonski, iz čistih voda zaljeva</p>
+        <ul class="menu-items">
+          <li class="menu-item">
+            <span class="menu-item-name">Dagnje na buzaru</span>
+            <span class="menu-item-desc">svježe dagnje, bijelo vino, češnjak, peršin</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Jakopove kapice</span>
+            <span class="menu-item-desc">pečene u ljusci s maslacem i začinima</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Buzara od gambora</span>
+            <span class="menu-item-desc">škampi na buzari</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- DOMAĆE SPECIJALITETI -->
+      <div class="menu-category reveal" role="listitem">
+        <div class="menu-category-title">Domaće specijaliteti</div>
+        <p class="menu-category-sub">recepti iz generacije u generaciju</p>
+        <ul class="menu-items">
+          <li class="menu-item">
+            <span class="menu-item-name">Pašticada</span>
+            <span class="menu-item-desc">dalmatinski raritet, svinjski umak s prutama, njoki</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Brujet od ribe</span>
+            <span class="menu-item-desc">gulaš od miješane ribe, domaći kruh</span>
+          </li>
+          <li class="menu-item">
+            <span class="menu-item-name">Soparnik</span>
+            <span class="menu-item-desc">zelena pita, blitva, češnjak, maslinovo ulje</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <p class="menu-note reveal">
+      Nudimo isključivo svježe ribe i plodove mora ovisno o dnevnom ulovu. Pitajte konobara za današnju ponudu.
+    </p>
+  </section>
+
+  <!-- =============================================
+       ZATON I ZALJEV
+  ============================================= -->
+  <section id="zaton" aria-labelledby="zaton-title">
+    <div class="zaton-grid">
+      <div class="zaton-image">
+        <img
+          src="https://loremflickr.com/800/1000/bay,sunset?lock=202"
+          alt="Zalazak sunca nad šibenskim zaljevom"
+          loading="lazy"
+        >
+      </div>
+      <div class="zaton-content">
+        <span class="eyebrow reveal">NAŠE MJESTO</span>
+        <h2 id="zaton-title" class="reveal">Zaton &#8212; zaljev na kraju puta</h2>
+        <p class="zaton-body reveal">
+          Zaton leži na kraju mirnog zaljeva zaštićenog od bure i vala. Plitke, prozirne vode idealne su za kupanje djece, a zalazak sunca nad šibenskim zaljevom i otocima &#8212; neprocjenjiv prizor koji se vidi samo odavde. Ime &#8220;Jaz&#8221; nosi ovaj kraj već generacijama &#8212; tihi prolaz mora koji skriva sve što treba: mir, svježinu i okus.
+        </p>
+        <div class="zaton-stats">
+          <div class="stat-item reveal">
+            <span class="stat-accent" aria-hidden="true"></span>
+            <span class="stat-label">Tihi zaljev</span>
+          </div>
+          <div class="stat-item reveal">
+            <span class="stat-accent" aria-hidden="true"></span>
+            <span class="stat-label">Svježi ulov svaki dan</span>
+          </div>
+          <div class="stat-item reveal">
+            <span class="stat-accent" aria-hidden="true"></span>
+            <span class="stat-label">Domaće vino &amp; ulje</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       GALERIJA
+  ============================================= -->
+  <section id="galerija" aria-labelledby="galerija-title">
+    <div class="section-head">
+      <span class="eyebrow reveal">ATMOSFERA</span>
+      <h2 id="galerija-title" class="reveal">Galerija</h2>
+    </div>
+
+    <div class="gallery-grid" role="list">
+      <div class="gallery-item reveal" role="listitem">
+        <img src="https://loremflickr.com/600/800/grilled,fish?lock=301" alt="Riba s gradela" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <img src="https://loremflickr.com/600/400/konoba,tavern?lock=302" alt="Atmosfera konobe" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <img src="https://loremflickr.com/600/400/adriatic,sea?lock=303" alt="Jadransko more" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <img src="https://loremflickr.com/600/800/olive,grove?lock=304" alt="Maslinik iznad Zatona" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <img src="https://loremflickr.com/600/400/peka?lock=305" alt="Peka — dalmatinska tradicija" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <img src="https://loremflickr.com/600/400/bay,sunset?lock=306" alt="Zalazak sunca nad zaljevom" loading="lazy">
+      </div>
+      <div class="gallery-item reveal" role="listitem">
+        <img src="https://loremflickr.com/600/400/vineyard?lock=307" alt="Vinograd" loading="lazy">
+      </div>
+      <div class="gallery-item wide reveal" role="listitem">
+        <img src="https://loremflickr.com/1200/400/adriatic,calm?lock=308" alt="Mirno Jadransko more" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       REZERVACIJE
+  ============================================= -->
+  <section id="rezervacije" aria-labelledby="rezervacije-title">
+    <div class="rezervacije-grid">
+      <div class="rezervacije-left">
+        <span class="eyebrow reveal">REZERVACIJE</span>
+        <h2 id="rezervacije-title" class="reveal">Rezervirajte <em>stol</em></h2>
+        <p class="rezervacije-text reveal">
+          U ljetnoj sezoni stolovi su izrazito traženi. Preporučujemo rezervaciju unaprijed kako bismo osigurali vaše mjesto uz tihu uvalu. Zovite nas i mi ćemo se pobrinuti za sve ostalo.
+        </p>
+        <a href="tel:+385981695744" class="phone-link reveal" aria-label="Pozovi 098 169 5744">
+          <span class="phone-icon" aria-hidden="true">✆</span>
+          098 169 5744
+        </a>
+      </div>
+
+      <div class="hours-card reveal">
+        <div class="hours-heading">Radno vrijeme</div>
+        <ul class="hours-list">
+          <li class="hours-row">
+            <span class="hours-day">Ponedjeljak &#8211; Petak</span>
+            <span class="hours-time">12:00 &#8211; 23:00</span>
+          </li>
+          <li class="hours-row">
+            <span class="hours-day">Subota</span>
+            <span class="hours-time">12:00 &#8211; 24:00</span>
+          </li>
+          <li class="hours-row">
+            <span class="hours-day">Nedjelja</span>
+            <span class="hours-time">12:00 &#8211; 22:00</span>
+          </li>
+        </ul>
+        <div class="hours-season">
+          <span class="hours-season-label">Sezona</span>
+          <div class="hours-season-value">travanj &#8211; listopad</div>
+          <p class="hours-note">Izvan sezone po dogovoru</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       LOKACIJA
+  ============================================= -->
+  <section id="lokacija" aria-labelledby="lokacija-title">
+    <div class="lokacija-text">
+      <span class="eyebrow reveal">KAKO NAS NAĆI</span>
+      <h2 id="lokacija-title" class="reveal">Zaton, kraj Šibenika</h2>
+      <p class="lokacija-desc reveal">
+        Konoba Jaz nalazi se u Zatonu, malom ribarskom selu na zaljeva nedaleko Šibenika. Pratite cestu duž mora sve do tihog zaljeva. Parkiralište uz cestu.
+      </p>
+      <address class="lokacija-adresa reveal" style="font-style:italic;">
+        Put Zaton bb, Zaton, 22000 Šibenik
+      </address>
+    </div>
+    <div class="lokacija-map">
+      <iframe
+        src="https://maps.google.com/maps?q=Konoba+Jaz+Zaton+Sibenik&output=embed"
+        title="Karta — Konoba Jaz, Zaton kraj Šibenika"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+      ></iframe>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FOOTER
+  ============================================= -->
+  <footer id="footer" role="contentinfo">
+    <div class="footer-grid">
+      <!-- Brand -->
+      <div>
+        <a href="#" class="footer-logo">Konoba <em>Jaz</em></a>
+        <p class="footer-desc">
+          Obiteljska konoba u Zatonu kraj Šibenika, na mirnom zaljevu između mora i maslinika.
+        </p>
+      </div>
+
+      <!-- Nav -->
+      <div>
+        <span class="footer-col-title">Navigacija</span>
+        <ul class="footer-nav-list">
+          <li><a href="#o-nama">Naša priča</a></li>
+          <li><a href="#jelovnik">Jelovnik</a></li>
+          <li><a href="#zaton">Zaton i zaljev</a></li>
+          <li><a href="#galerija">Galerija</a></li>
+          <li><a href="#rezervacije">Rezervacije</a></li>
+          <li><a href="#lokacija">Lokacija</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <span class="footer-col-title">Kontakt</span>
+        <div class="footer-contact-item">
+          <strong>Telefon</strong>
+          <a href="tel:+385981695744">098 169 5744</a>
+        </div>
+        <div class="footer-contact-item">
+          <strong>Adresa</strong>
+          Put Zaton bb<br>Zaton, 22000 Šibenik
+        </div>
+        <div class="footer-contact-item">
+          <strong>Sezona</strong>
+          travanj &#8211; listopad
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 Konoba Jaz. Sva prava pridržana.</span>
+      <span class="footer-love">Izrađeno s ❤ za Zaton</span>
+    </div>
+  </footer>
+
+  <!-- =============================================
+       STICKY MOBILE BAR
+  ============================================= -->
+  <div class="mobile-bar" role="complementary" aria-label="Brza rezervacija">
+    <a href="tel:+385981695744">📞 Rezerviraj stol</a>
+  </div>
+
+  <!-- =============================================
+       SCRIPTS: GSAP + ScrollTrigger + Lenis
+  ============================================= -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+  <script>
+  (function () {
+    'use strict';
+
+    // -----------------------------------------------
+    // REDUCED MOTION GUARD
+    // -----------------------------------------------
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // -----------------------------------------------
+    // LENIS SMOOTH SCROLL
+    // -----------------------------------------------
+    if (!prefersReduced) {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+        orientation: 'vertical',
+        smoothWheel: true
+      });
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      gsap.ticker.add(function (time) {
+        lenis.raf(time * 1000);
+      });
+      gsap.ticker.lagSmoothing(0);
+
+      lenis.on('scroll', ScrollTrigger.update);
+    } else {
+      gsap.registerPlugin(ScrollTrigger);
+    }
+
+    // -----------------------------------------------
+    // HEADER SCROLL BEHAVIOUR
+    // -----------------------------------------------
+    var header = document.getElementById('header');
+
+    function onScroll() {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // -----------------------------------------------
+    // SMOOTH ANCHOR SCROLL
+    // -----------------------------------------------
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
+        var targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        var target = document.querySelector(targetId);
+        if (!target) return;
+        e.preventDefault();
+
+        if (!prefersReduced && window.lenis) {
+          window.lenis.scrollTo(target, { offset: -72, duration: 1.2 });
+        } else {
+          var top = target.getBoundingClientRect().top + window.scrollY - 72;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+
+        // Close mobile menu if open
+        closeMobileMenu();
+      });
+    });
+
+    // -----------------------------------------------
+    // MOBILE HAMBURGER MENU
+    // -----------------------------------------------
+    var hamburger = document.getElementById('hamburger');
+    var mobileMenu = document.getElementById('mobileMenu');
+    var menuOpen = false;
+
+    function openMobileMenu() {
+      menuOpen = true;
+      mobileMenu.classList.add('open');
+      hamburger.classList.add('open');
+      hamburger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      menuOpen = false;
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', function () {
+      if (menuOpen) { closeMobileMenu(); } else { openMobileMenu(); }
+    });
+
+    // Close on ESC
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && menuOpen) { closeMobileMenu(); }
+    });
+
+    // -----------------------------------------------
+    // HERO ANIMATIONS
+    // -----------------------------------------------
+    if (!prefersReduced) {
+      // Breathing scale on load
+      var heroBgImg = document.querySelector('.hero-bg img');
+      if (heroBgImg) {
+        gsap.from(heroBgImg, {
+          scale: 1.04,
+          duration: 2.5,
+          ease: 'power2.out'
+        });
+      }
+
+      // Hero H1 word reveal
+      var heroH1 = document.getElementById('heroH1');
+      if (heroH1) {
+        var words = heroH1.textContent.split(' ');
+        heroH1.innerHTML = words.map(function (w) {
+          return '<span class="word"><span class="word-inner">' + w + '</span></span>';
+        }).join(' ');
+
+        gsap.from(heroH1.querySelectorAll('.word-inner'), {
+          y: '100%',
+          opacity: 0,
+          duration: 0.8,
+          stagger: 0.07,
+          ease: 'power3.out',
+          delay: 0.3
+        });
+      }
+
+      // Hero eyebrow + sub fade
+      gsap.from('.hero-eyebrow', {
+        opacity: 0, y: 16, duration: 0.9, ease: 'power3.out', delay: 0.1
+      });
+      gsap.from('.hero-sub', {
+        opacity: 0, y: 14, duration: 0.9, ease: 'power3.out', delay: 1.0
+      });
+
+      // Hero parallax
+      gsap.to('.hero-bg', {
+        yPercent: 25,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '#hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1
+        }
+      });
+
+    } else {
+      // No animation — just ensure hero text is visible
+      var heroH1Static = document.getElementById('heroH1');
+      if (heroH1Static) {
+        heroH1Static.style.opacity = '1';
+      }
+    }
+
+    // -----------------------------------------------
+    // SECTION REVEAL ANIMATIONS
+    // -----------------------------------------------
+    if (!prefersReduced) {
+      // General .reveal elements
+      var revealEls = document.querySelectorAll('.reveal');
+
+      revealEls.forEach(function (el) {
+        ScrollTrigger.create({
+          trigger: el,
+          start: 'top 88%',
+          onEnter: function () {
+            el.classList.add('is-visible');
+          }
+        });
+      });
+
+      // Stagger menu items within each category
+      document.querySelectorAll('.menu-category').forEach(function (cat) {
+        var items = cat.querySelectorAll('.menu-item');
+        gsap.from(items, {
+          opacity: 0,
+          y: 18,
+          duration: 0.55,
+          stagger: 0.07,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: cat,
+            start: 'top 82%'
+          }
+        });
+      });
+
+      // Stagger gallery items
+      var galleryItems = document.querySelectorAll('.gallery-item');
+      gsap.from(galleryItems, {
+        opacity: 0,
+        y: 20,
+        duration: 0.65,
+        stagger: 0.08,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: '#galerija .gallery-grid',
+          start: 'top 85%'
+        }
+      });
+
+    } else {
+      // Make everything visible immediately
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        el.classList.add('is-visible');
+      });
+    }
+
+  })();
+  </script>
+
+</body>
+</html>
